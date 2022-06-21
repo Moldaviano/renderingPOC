@@ -6,20 +6,36 @@
             <p class="section-name">{{section.name.en || section.name.it}}</p>
         </div>
         <!-- Qui dentro verra visualizzato il form con dentro i vari field di input -->
+        <!-- Show controlla se il corpo della section è visibile o meno, rimuovere
+                ngIf per disabilitare-->
         <form *ngIf="show === true" novalidate class="field-container form">
 
             <!-- Viene creata una label e un input per ogni field -->
             <div *ngFor="let field of section.fields" class="field">
 
+
+
                 <!--
                     Questo field viene mostrato solo se il fieldType è diverso da { "select" | "radio" | "checkbox" } 
                 -->
                 <div class="field-inner"
-                    *ngIf="(field.fieldType != 'SELECT') && (field.fieldType != 'RADIO') && (field.fieldType != 'CHECKBOX')">
-                    <label [for]="field.fieldName">{{field.label['en']}}</label>
+                    *ngIf="(field.fieldType != 'SELECT') && (field.fieldType != 'RADIO') && (field.fieldType != 'CHECKBOX') && (field.fieldType != 'TEXT_AREA')">
+                    <label [for]="field.fieldName">{{field.label['en' || 'it']}}</label>
                     <input [type]="fieldTypeTranslator(field.fieldType)" [name]="field.fieldName" [id]="field.fieldName"
                         [formControl]="formArray.at(field.order)">
                 </div>
+
+
+
+                <!--
+                    Questo field viene mostrato solo se il fieldType è "textarea"
+                -->
+                <div class="field-inner" *ngIf="(field.fieldType === 'TEXT_AREA')">
+                    <label [for]="field.fieldName">{{field.label['en' || 'it']}}</label>
+                    <textarea [name]="field.fieldName" [id]="field.fieldName" cols="50" rows="10"
+                        [formControl]="formArray.at(field.order)"></textarea>
+                </div>
+
 
 
                 <!--
@@ -27,7 +43,7 @@
                     I vari radio input (dello stesso field) devono avere lo stesso [name] per funzionare
                 -->
                 <div class="field-inner"
-                    *ngIf="(field.fieldType == 'RADIO' || fieldTypeTranslator(field.fieldType) == 'radio')"
+                    *ngIf="(field.fieldType === 'RADIO' || fieldTypeTranslator(field.fieldType) === 'radio')"
                     class="radioInput">
                     <p>{{field.label.en}}</p>
                     <div *ngFor="let element of field.selectableItems; let i = index">
@@ -43,7 +59,7 @@
                     Questo field viene mostrato solo se il fieldType è "checkbox"
                 -->
                 <div class="field-inner"
-                    *ngIf="field.fieldType == 'CHECKBOX' || fieldTypeTranslator(field.fieldType) == 'checkbox'">
+                    *ngIf="field.fieldType === 'CHECKBOX' || fieldTypeTranslator(field.fieldType) === 'checkbox'">
                     <div *ngFor="let element of field.selectableItems;">
                         <input [type]="fieldTypeTranslator(field.fieldType)" [name]="field.fieldName"
                             [value]="field.selectableItems"
@@ -54,10 +70,12 @@
                 </div>
 
 
+                
                 <!--
                     Questo field viene mostrato solo se il fieldType è "select"
                 -->
-                <div class="field-inner" *ngIf="(fieldTypeTranslator(field.fieldType) == 'select')">
+                <div class="field-inner"
+                    *ngIf="((field.fieldType === 'SELECT') ||  fieldTypeTranslator(field.fieldType) === 'select')">
                     <label [for]="field.fieldName">{{field.label.en}}</label>
                     <select [formControl]="formArray.at(field.order)" [name]="field.fieldName">
                         <option *ngFor="let element of field.selectableItems" [value]="element">
@@ -66,6 +84,7 @@
                     </select>
                 </div>
             </div>
+
 
 
             <div class="space-m"></div>

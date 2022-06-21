@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Field, Section } from '../shared/sharedTypes/sectionType';
 
 @Injectable({
@@ -6,8 +7,18 @@ import { Field, Section } from '../shared/sharedTypes/sectionType';
 })
 export class DataFlowService {
 
+  // public observable = new Observable(subscriber => {
+  //   subscriber.next(1);
+  //   subscriber.next(2);
+  //   subscriber.next(3);
+  //   setTimeout(() => {
+  //     subscriber.next(4);
+  //     subscriber.complete();
+  //   }, 2000);
+  // });
+
   private readonly nMaxSections: number = 500;
-  private readonly nMaxFields: number = 50;
+  private readonly nMaxFields: number = 100;
 
   /**
    * 
@@ -16,6 +27,11 @@ export class DataFlowService {
   public getFakeData(): Section[] {
     let fakeData: Section[] = [];
     fakeData = this.getSections(fakeData);
+    // this.observable.subscribe({
+    //   next(x) { console.log("got value " + x); },
+    //   error(err) { console.error("male male, tutto bene? no, male male: " + err); },
+    //   complete() { console.log("lessgoo"); }
+    // });
     return fakeData;
   }
 
@@ -44,7 +60,6 @@ export class DataFlowService {
    * @returns {Field}
    */
   private getFields(): Field[] {
-
     let fields = [];
     for (let i = 0; i < this.nMaxFields; i++) {
       let field = { ...this.getFakeField() };
@@ -201,6 +216,33 @@ export class DataFlowService {
           "Linux",
           "MACOS"
         ]
+      },
+      {
+        "fieldName": "password",
+        "label": {
+          "it": "Password",
+          "en": "Password"
+        },
+        "fieldType": "PASSWORD",
+        "textVal": {
+          "isName": false
+        },
+        "mandatory": false,
+        "order": 0,
+        "value": "Paolo"
+      },{
+        "fieldName": "comment",
+        "label": {
+          "it": "Commento",
+          "en": "Comment"
+        },
+        "fieldType": "TEXT_AREA",
+        "textVal": {
+          "isName": false
+        },
+        "mandatory": false,
+        "order": 0,
+        "value": "Paolo"
       }
     ]
 

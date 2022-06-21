@@ -62,7 +62,7 @@ export type Field = {
     value: string | string[];
 }
 
-export type FieldType = "TEXT" | "TEXT_AREA" | "NUMERIC" | "DATE" | "RADIO" | "SELECT" | "CHECKBOX";
+export type FieldType = "TEXT" | "TEXT_AREA" | "NUMERIC" | "DATE" | "RADIO" | "SELECT" | "CHECKBOX" | "PASSWORD";
 
 // export const fieldType: FieldType[] = [
 //     "TEXT",

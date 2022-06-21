@@ -1,3 +1,5 @@
+//TODO: rivedere flex
+
 div.section-container {
     max-width: 100%;
     min-width: 400px;
@@ -48,14 +50,14 @@ div.section-container {
 
                     input[type="text"],
                     input[type="number"],
-                    input[type="date"] {
-
+                    input[type="date"],
+                    input[type="password"] {
                         height: 30px;
                         width: 300px;
                         font-size: 19px;
                     }
 
-                    select {
+                    select, textarea {
                         height: 30px;
                         width: 300px;
                         font-size: 19px;
@@ -105,7 +107,9 @@ div.action-buttons-container {
 input[type="text"],
 input[type="number"],
 input[type="date"],
-select {
+input[type="password"],
+select,
+textarea {
     border-radius: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     // border: 1px solid #66d035;
