@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Field, Section } from '../shared/sharedTypes/sectionType';
 
 @Injectable({
@@ -57,7 +56,7 @@ export class DataFlowService {
           fakeData[i].fields[3].fieldName,
         ],
       };
-      console.log(fakeData[i].fields);
+      // console.log(fakeData[i].fields);
     }
     return fakeData;
   }
@@ -243,6 +242,18 @@ export class DataFlowService {
       },
       mandatory: false,
       order: 0,
+      value: '',
+    },
+    {
+      fieldName: 'residenza',
+      label: {
+        it: 'Residenza',
+        en: 'Residence',
+      },
+      fieldType: 'MULTI_SELECT',
+      selectableItems: ['Mirano', 'Spinea', 'Mestre'],
+      mandatory: false,
+      order: 5,
       value: '',
     },
   ];

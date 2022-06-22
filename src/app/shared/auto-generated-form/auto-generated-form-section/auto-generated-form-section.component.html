@@ -19,17 +19,12 @@
             field.fieldType != 'SELECT' &&
             field.fieldType != 'RADIO' &&
             field.fieldType != 'CHECKBOX' &&
-            field.fieldType != 'TEXT_AREA'
+            field.fieldType != 'TEXT_AREA' &&
+            field.fieldType != 'MULTI_SELECT'
           "
         >
           <label [for]="field.fieldName">{{ field.label["en" || "it"] }}</label>
           <div>
-            <input
-              [type]="fieldTypeTranslator(field.fieldType)"
-              [name]="field.fieldName"
-              [formControl]="formArray.at(field.order)"
-            />
-            <!-- Checkbox per mostrare/nascondere la password -->
             <input
               *ngIf="
                 field.fieldType === 'PASSWORD' || field.textVal?.isPass === true
@@ -37,6 +32,12 @@
               type="checkbox"
               (click)="showPassword(field)"
             />
+            <input
+              [type]="fieldTypeTranslator(field.fieldType)"
+              [name]="field.fieldName"
+              [formControl]="formArray.at(field.order)"
+            />
+            <!-- Checkbox per mostrare/nascondere la password -->
           </div>
         </div>
 
@@ -130,6 +131,28 @@
               {{ element }}
             </option>
           </select>
+        </div>
+
+        <!--
+                    Questo field viene mostrato solo se il fieldType è "multi_select"
+                -->
+        <div
+          class="field-inner"
+          *ngIf="
+            field.fieldType === 'MULTI_SELECT' ||
+            fieldTypeTranslator(field.fieldType) === 'multi_select'
+          "
+        >
+          <label [for]="field.fieldName">{{ field.label.en }}</label>
+          <ng-select
+            [formControl]="formArray.at(field.order)"
+            *ngIf="field.selectableItems"
+            [items]="field.selectableItems"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [hideSelected]="false"
+            [bindLabel]= field.fieldName
+            ></ng-select>
         </div>
       </div>
 

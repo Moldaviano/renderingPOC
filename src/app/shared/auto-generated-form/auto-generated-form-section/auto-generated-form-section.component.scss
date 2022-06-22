@@ -1,3 +1,5 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
 //TODO: rivedere flex
 
 div.section-container {
@@ -49,13 +51,16 @@ div.section-container {
           input[type="text"],
           input[type="number"],
           input[type="date"],
-          input[type="password"] {
+          input[type="password"],
+          input[type="multi_select"] {
             height: 30px;
             width: 300px;
             font-size: 19px;
           }
 
           select,
+          ng-select,
+          ng-dropwdown-panel,
           textarea {
             height: 30px;
             width: 300px;
@@ -105,7 +110,9 @@ input[type="text"],
 input[type="number"],
 input[type="date"],
 input[type="password"],
+input[type="multi_select"],
 select,
+ng-select,
 textarea {
   border-radius: 15px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

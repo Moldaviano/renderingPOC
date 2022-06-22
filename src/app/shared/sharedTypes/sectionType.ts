@@ -30,7 +30,7 @@ export type Field = {
   label: LangCode;
   /**
    * Tipo di input del campo, può essere:
-   * {"TEXT" | "TEXT_AREA" | "NUMERIC" | "DATE" | "RADIO" | "SELECT" | "CHECKBOX"}
+   * {"TEXT" | "TEXT_AREA" | "NUMERIC" | "DATE" | "RADIO" | "SELECT" | "MULTI_SELECT" | "CHECKBOX"}
    */
   fieldType: FieldType;
   /**
@@ -74,6 +74,7 @@ export type FieldType =
   | 'DATE'
   | 'RADIO'
   | 'SELECT'
+  | 'MULTI_SELECT'
   | 'CHECKBOX'
   | 'PASSWORD';
 
