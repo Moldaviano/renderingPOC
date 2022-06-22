@@ -16,13 +16,17 @@
 
 
                 <!--
-                    Questo field viene mostrato solo se il fieldType è diverso da { "select" | "radio" | "checkbox" } 
+                    Questo field viene mostrato solo se il fieldType è diverso da { "select" | "radio" | "checkbox" | "textarea" } 
                 -->
                 <div class="field-inner"
                     *ngIf="(field.fieldType != 'SELECT') && (field.fieldType != 'RADIO') && (field.fieldType != 'CHECKBOX') && (field.fieldType != 'TEXT_AREA')">
                     <label [for]="field.fieldName">{{field.label['en' || 'it']}}</label>
-                    <input [type]="fieldTypeTranslator(field.fieldType)" [name]="field.fieldName" [id]="field.fieldName"
-                        [formControl]="formArray.at(field.order)">
+                    <div>
+                        <input [type]="fieldTypeTranslator(field.fieldType)" [name]="field.fieldName"
+                            [formControl]="formArray.at(field.order)">
+                        <!-- Checkbox per mostrare/nascondere la password -->
+                        <input *ngIf="field.fieldType === 'PASSWORD' || field.textVal?.isPass === true" type="checkbox" (click)="showPassword(field)">
+                    </div>
                 </div>
 
 
@@ -32,7 +36,7 @@
                 -->
                 <div class="field-inner" *ngIf="(field.fieldType === 'TEXT_AREA')">
                     <label [for]="field.fieldName">{{field.label['en' || 'it']}}</label>
-                    <textarea [name]="field.fieldName" [id]="field.fieldName" cols="50" rows="10"
+                    <textarea [name]="field.fieldName" cols="50" rows="10"
                         [formControl]="formArray.at(field.order)"></textarea>
                 </div>
 
@@ -55,6 +59,7 @@
                 </div>
 
 
+
                 <!--
                     Questo field viene mostrato solo se il fieldType è "checkbox"
                 -->
@@ -70,7 +75,7 @@
                 </div>
 
 
-                
+
                 <!--
                     Questo field viene mostrato solo se il fieldType è "select"
                 -->
@@ -89,12 +94,15 @@
 
             <div class="space-m"></div>
 
+
+
             <!-- Buttons con funzioni utili al utente:
                     Cancel - azzera i valori di tutti i campi
-                    Reset - porta la section allo stato iniziale (valori arrivati dal server)
-                    Save - Salva i dati del form se vengono rispettati i validators
-                    TODO: disattivare il Save button se non tutti i campi sono validati correttamente 
-            -->
+                    Reset - porta la section allo stato iniziale (valori contenuti in field.value)
+                    Save - Salva i dati del form (in questo caso vengono solo mostrati a console),
+                        se il formArray non è valid (quindi non tutti i formControl sono valid) il
+                        pulsante Save non è cliccabile
+                -->
             <div class="action-buttons-container">
                 <input type="button" class="cancel_button" (click)="formArray.reset()" value="Cancel">
                 <input type="button" class="reset_button" (click)="resetInitialValues(section)" value="Reset">

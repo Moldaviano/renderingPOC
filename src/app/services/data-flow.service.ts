@@ -17,8 +17,8 @@ export class DataFlowService {
   //   }, 2000);
   // });
 
-  private readonly nMaxSections: number = 500;
-  private readonly nMaxFields: number = 100;
+  private readonly nMaxSections: number = 1;
+  private readonly nMaxFields: number = 20;
 
   /**
    * 
@@ -29,7 +29,7 @@ export class DataFlowService {
     fakeData = this.getSections(fakeData);
     // this.observable.subscribe({
     //   next(x) { console.log("got value " + x); },
-    //   error(err) { console.error("male male, tutto bene? no, male male: " + err); },
+    //   error(err) { console.error(err); },
     //   complete() { console.log("lessgoo"); }
     // });
     return fakeData;
@@ -51,6 +51,13 @@ export class DataFlowService {
         "order": i,
         "fields": this.getFields()
       }
+      fakeData[i].fields[5].depends = {
+        isDependent: true,
+        dependsFrom: [
+          fakeData[i].fields[4].fieldName
+        ]
+      }
+      console.log(fakeData[i].fields)
     }
     return fakeData;
   }
@@ -66,6 +73,16 @@ export class DataFlowService {
       field.order = i;
       field.fieldName += i;
       field.mandatory = Math.round(Math.random()) === 0;
+      field.mandatory = true
+      if (field.fieldType === "PASSWORD") {
+        /**
+         * se field.textval non esiste lo creo
+         */
+        if (!field.textVal) {
+          field.textVal = {};
+        }
+        field.textVal.isPass = true;
+      }
       fields.push(field);
     }
     return fields
@@ -88,7 +105,7 @@ export class DataFlowService {
   }
 
   /**
-   * restituisce un numero casuale di 
+   * restituisce un numero casuale di fields da inserire in una section
    * @returns {number}
    */
   private getNFields(): number {
@@ -113,7 +130,7 @@ export class DataFlowService {
         },
         "mandatory": false,
         "order": 0,
-        "value": "Paolo"
+        "value": ""
       }, {
         "fieldName": "cognome",
         "label": {
@@ -123,7 +140,7 @@ export class DataFlowService {
         "fieldType": "TEXT",
         "mandatory": false,
         "order": 2,
-        "value": "Rossi"
+        "value": ""
       },
       {
         "fieldName": "number",
@@ -138,7 +155,7 @@ export class DataFlowService {
         },
         "mandatory": false,
         "order": 6,
-        "value": "15"
+        "value": ""
       },
       {
         "fieldName": "data-di-nascita",
@@ -211,11 +228,7 @@ export class DataFlowService {
         ],
         "mandatory": false,
         "order": 8,
-        "value": [
-          "Windows",
-          "Linux",
-          "MACOS"
-        ]
+        "value": ""
       },
       {
         "fieldName": "password",
@@ -229,8 +242,8 @@ export class DataFlowService {
         },
         "mandatory": false,
         "order": 0,
-        "value": "Paolo"
-      },{
+        "value": ""
+      }, {
         "fieldName": "comment",
         "label": {
           "it": "Commento",
@@ -242,7 +255,7 @@ export class DataFlowService {
         },
         "mandatory": false,
         "order": 0,
-        "value": "Paolo"
+        "value": ""
       }
     ]
 

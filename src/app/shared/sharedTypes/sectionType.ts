@@ -1,3 +1,5 @@
+import { R3PipeDependencyMetadata } from "@angular/compiler";
+
 /**
  * Contains all the possible infos about a section and section's fields
  * 
@@ -7,15 +9,15 @@
  */
 export type Section = {
     /**
-     * Section name --> can have translation to be shown to the user in his default language
+     * Nome della sezione, può contenere traduzioni in diverse lingue in modo 
      */
     name: LangCode;
     /**
-     * Section order value - lower values will come before higher values in the list
+     * Numero che indica l'ordine delle sezioni, numeri più bassi vengono generati prima (evitare presenza di sezioni con lo stesso order)
      */
     order: number;
     /**
-     * Array which contains inputs and infos about form's inputs
+     * Array contenente i vari field della sezione e le relative caratteristiche
      */
     fields: Field[];
 }
@@ -23,41 +25,44 @@ export type Section = {
 export type Field = {
     fieldName: string;
     /**
-     * Field's name which will be shown to the user, can have multiple translation and can be shown to the user in his
-     * default language
+     * Nome del field che verrà mostrato all'utente accanto al campo da compilare
      */
     label: LangCode;
     /**
-     * Field's input type can be =
+     * Tipo di input del campo, può essere:
      * {"TEXT" | "TEXT_AREA" | "NUMERIC" | "DATE" | "RADIO" | "SELECT" | "CHECKBOX"}
      */
     fieldType: FieldType;
     /**
-     * Optional: properties for numbers useful for the validation
+     * Optional: proprietà per gli input numerici, utile per la validazione
      */
     numVal?: numericProp;
     /**
-     * Optional: properties for strings useful for the validation
+     * Optional: proprietà per gli input di tipo TEXT, TEXT_AREA e PASSWORD, utile per la validazione
      */
     textVal?: stringProp;
     /**
-     * Optional: properties for dates useful for the validation
+     * Optional: proprietà per gli input di date, utile per la validazione
      */
     dateVal?: dateProp;
     /**
-     * Optional: list of items to be shown in radio, select and checkbox input
+     * Optional: lista di elementi che possono essere selezionati, utilizzabile per SELECT, RADIO e CHECKBOX
      */
     selectableItems?: string[];
     /**
-     * Defines if the field has to be filled or not to proceed
+     * Determina se il campo dev'essere obbligatoriamente compilato per inviare il form, viene utilizzato dal validatore per definire se
+     * è required o meno
      */
     mandatory: boolean;
     /**
-     * Field's order value | lower values will come before higher values in the list
+     * Numero che indica l'ordine dei campi, numeri più bassi vengono generati prima (evitare presenza di sezioni con lo stesso order)
      */
     order: number;
+
+    depends?: dependent;
+
     /**
-     * Field's start value
+     * Valore iniziale del campo
      */
     value: string | string[];
 }
@@ -75,8 +80,8 @@ export type FieldType = "TEXT" | "TEXT_AREA" | "NUMERIC" | "DATE" | "RADIO" | "S
 // ];
 
 /**
- * It is used when a string can have a translation which can be displayed if possible.
- * Each field of this type represents a possible translation in a specific language.
+ * Viene utilizzato quando una stringa può avere delle traduzioni, ogni campo indica una lingua
+ * in cui la stringa può essere tradotta
  */
 type LangCode = {
     it?: string;
@@ -89,35 +94,54 @@ type LangCode = {
  */
 type numericProp = {
     /**
-     * Optional: defines the lowest value that the number can assume
+     * Optional: determina il valore minimo che il numero può assumere affinchè il campo risulti valido
      */
     minVal?: number;
     /**
-     * Optional: defines the higher value that the number can assume
+     * Optional: determina il valore massimo che il numero può assumere affinchè il campo risulti valido
      */
     maxVal?: number;
 }
 
 type stringProp = {
     /**
-     * Optional: defines if the string must be a name (usable with surnames too)
+     * //TODO: rivedere regex
+     * Optional: determina se la stringa in questione è un nome (utilizzabile anche con cognomi)
      */
     isName?: boolean;
     /**
-     * Optional: defines if the string must be an email
+     * Optional: determina se la stringa in questione dev'essere una mail
      */
     isEmail?: boolean;
+    /**
+     * Optional: determina il numero minimo di valori che la stringa deve avere affinchè il campo risulti valido
+     */
     minLength?: number;
+    /**
+     * Optional: determina il numero massimo di valori che la stringa può avere affinchè il campo risulti valido
+     */
     maxLength?: number;
+    isPass?: boolean;
 }
 
 type dateProp = {
     /**
-     * Optional: defines the lowest date acceptable
+     * Optional: determina la data più remota che si può inserire affinchè il campo risulti valido
      */
     minDate?: string;
     /**
-     * Optional: defines the highest date acceptable
+     * Optional: 
      */
     maxDate?: string;
+}
+
+type dependent = {
+    /**
+     * Determina se questo campo dipende da altri campi
+     */
+    isDependent: boolean;
+    /**
+     * Nome del campo dal quale dipende
+     */
+    dependsFrom?: string[]
 }
