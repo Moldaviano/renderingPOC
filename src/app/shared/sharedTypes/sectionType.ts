@@ -154,3 +154,13 @@ type dependent = {
    */
   dependsFrom?: string[];
 };
+
+type fieldStatus = {
+    visibile?: boolean;
+    enabled?: boolean;
+    valid?: boolean;
+}
+
+type conditions = {
+
+}

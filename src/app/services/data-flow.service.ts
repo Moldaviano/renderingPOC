@@ -52,8 +52,8 @@ export class DataFlowService {
       fakeData[i].fields[5].depends = {
         isDependent: true,
         dependsFrom: [
-          fakeData[i].fields[4].fieldName,
           fakeData[i].fields[3].fieldName,
+          fakeData[i].fields[4].fieldName,
         ],
       };
       // console.log(fakeData[i].fields);
@@ -245,13 +245,13 @@ export class DataFlowService {
       value: '',
     },
     {
-      fieldName: 'residenza',
+      fieldName: 'todo',
       label: {
-        it: 'Residenza',
-        en: 'Residence',
+        it: 'Da fare',
+        en: 'TODO list',
       },
       fieldType: 'MULTI_SELECT',
-      selectableItems: ['Mirano', 'Spinea', 'Mestre'],
+      selectableItems: ['task1', 'task2', 'task3', 'task4'],
       mandatory: false,
       order: 5,
       value: '',
