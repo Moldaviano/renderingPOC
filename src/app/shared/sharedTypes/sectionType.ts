@@ -155,7 +155,17 @@ type dependent = {
   fieldStatus?: fieldStatus;
 };
 
-//TEST:
+/**
+ * STATO:
+ *  -Visibilità campo: implementato alla pagina pagina HTML e testato con condizioni semplici attraverso i servizi,
+ *   //READ da testare con valori di altri campi
+ *
+ *  -Dis/Abilitazione campo: _DA IMPLEMENTARE_
+ *  -Validità campo: _DA IMPLEMENTARE_
+ *
+ * E' stata presa la scelta di dividere le condizioni per visibilità/abilitazione e validità del campo
+ * in modo che possa avere più stati allo stesso momento (es. se il campo è disabled non è necessariamente anche invisibile)
+ */
 type fieldStatus = {
   /**
    * determina quali sono le condizioni che si devono rispettare
@@ -199,6 +209,11 @@ export type condition = {
    */
   firstComparedFactor: number | string;
   /**
+   * determina se il primo valore è il nome di un altro campo, in tal caso si farà il confronto tra il value di tale
+   * campo e l'altro valore
+   */
+  firstFactorIsFieldName?: boolean;
+  /**
    * operatore di comparazione
    */
   comparator: comparator;
@@ -206,6 +221,16 @@ export type condition = {
    * secondo fattore di comparazione
    */
   secondComparedFactor: number | number[] | string | string[];
+  /**
+   * determina se il secondo valore è il nome di un altro campo, in tal caso si farà il confronto tra il value di tale
+   * campo e l'altro valore
+   */
+  secondFactorIsFieldName?: boolean;
+  /**
+   * determina se i due fattori sono nomi di altri campi, in tal caso si farà il confronto tra i valori di quei campi
+   *
+   */
+  comparedFactorsAreFieldNames?: boolean;
 };
 
 /**
@@ -239,10 +264,3 @@ type compared = {
  *  '&&' = AND
  */
 type logicOperator = '||' | '&&' | null;
-
-/**
- * //TODO: implementare un sistema dati che permetta di verificare delle condizioni in arrivo in formato JSON e applicarle
- * in modo che la visibilità/abilitazione/validazione di un campo dipenda da queste condizioni.
- *
- * Le condizioni sono riferite ai valori inseriti nei field dai quali dipende il campo
- */

@@ -21,7 +21,9 @@
             field.fieldType != 'CHECKBOX' &&
             field.fieldType != 'TEXT_AREA' &&
             field.fieldType != 'MULTI_SELECT' &&
-            this.getConditionResult(field?.depends?.fieldStatus?.conditionForVisibility)
+            this.getConditionResult(
+              field?.depends?.fieldStatus?.conditionForVisibility
+            )
           "
         >
           <label [for]="field.fieldName">{{ field.label["en" || "it"] }}</label>
@@ -45,7 +47,15 @@
         <!--
                     Questo field viene mostrato solo se il fieldType è "textarea"
                 -->
-        <div class="field-inner" *ngIf="field.fieldType === 'TEXT_AREA'">
+        <div
+          class="field-inner"
+          *ngIf="
+            field.fieldType === 'TEXT_AREA' &&
+            this.getConditionResult(
+              field?.depends?.fieldStatus?.conditionForVisibility
+            )
+          "
+        >
           <label [for]="field.fieldName">{{ field.label["en" || "it"] }}</label>
           <textarea
             [name]="field.fieldName"
@@ -62,8 +72,11 @@
         <div
           class="field-inner"
           *ngIf="
-            field.fieldType === 'RADIO' ||
-            fieldTypeTranslator(field.fieldType) === 'radio'
+            (field.fieldType === 'RADIO' ||
+              fieldTypeTranslator(field.fieldType) === 'radio') &&
+            this.getConditionResult(
+              field?.depends?.fieldStatus?.conditionForVisibility
+            )
           "
           class="radioInput"
         >
@@ -86,8 +99,11 @@
         <div
           class="field-inner"
           *ngIf="
-            field.fieldType === 'CHECKBOX' ||
-            fieldTypeTranslator(field.fieldType) === 'checkbox'
+            (field.fieldType === 'CHECKBOX' ||
+              fieldTypeTranslator(field.fieldType) === 'checkbox') &&
+            this.getConditionResult(
+              field?.depends?.fieldStatus?.conditionForVisibility
+            )
           "
         >
           <div *ngFor="let element of field.selectableItems">
@@ -116,8 +132,11 @@
         <div
           class="field-inner"
           *ngIf="
-            field.fieldType === 'SELECT' ||
-            fieldTypeTranslator(field.fieldType) === 'select'
+            (field.fieldType === 'SELECT' ||
+              fieldTypeTranslator(field.fieldType) === 'select') &&
+            this.getConditionResult(
+              field?.depends?.fieldStatus?.conditionForVisibility
+            )
           "
         >
           <label [for]="field.fieldName">{{ field.label.en }}</label>
@@ -140,8 +159,11 @@
         <div
           class="field-inner"
           *ngIf="
-            field.fieldType === 'MULTI_SELECT' ||
-            fieldTypeTranslator(field.fieldType) === 'multi_select'
+            (field.fieldType === 'MULTI_SELECT' ||
+              fieldTypeTranslator(field.fieldType) === 'multi_select') &&
+            this.getConditionResult(
+              field?.depends?.fieldStatus?.conditionForVisibility
+            )
           "
         >
           <label [for]="field.fieldName">{{ field.label.en }}</label>

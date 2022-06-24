@@ -49,24 +49,25 @@ export class DataFlowService {
         order: i,
         fields: this.getFields(),
       };
+      //INIZIO assegnazioni utilizzate per test vari
       fakeData[i].fields[5].depends = {
         isDependent: true,
         dependsFrom: [
           fakeData[i].fields[3].fieldName,
           fakeData[i].fields[4].fieldName,
         ],
-
       };
       fakeData[i].fields[2].depends = {
         isDependent: false,
         fieldStatus: {
           conditionForVisibility: {
             firstComparedFactor: 4,
-            comparator: "<",
-            secondComparedFactor: 5
-          }
-        }
-      }
+            comparator: '<',
+            secondComparedFactor: 5,
+          },
+        },
+      };
+      //FINE assegnazioni utilizzate per test vari
       // console.log(fakeData[i].fields);
     }
     return fakeData;
