@@ -55,7 +55,18 @@ export class DataFlowService {
           fakeData[i].fields[3].fieldName,
           fakeData[i].fields[4].fieldName,
         ],
+
       };
+      fakeData[i].fields[2].depends = {
+        isDependent: false,
+        fieldStatus: {
+          conditionForVisibility: {
+            firstComparedFactor: 4,
+            comparator: "<",
+            secondComparedFactor: 5
+          }
+        }
+      }
       // console.log(fakeData[i].fields);
     }
     return fakeData;

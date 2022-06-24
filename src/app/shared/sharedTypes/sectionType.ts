@@ -152,7 +152,7 @@ type dependent = {
    * Nome del campo dal quale dipende
    */
   dependsFrom?: string[];
-  qualcosa?: fieldStatus;
+  fieldStatus?: fieldStatus;
 };
 
 //TEST:

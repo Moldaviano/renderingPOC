@@ -7,7 +7,7 @@
     <!-- Qui dentro verra visualizzato il form con dentro i vari field di input -->
     <!-- Show controlla se il corpo della section è visibile o meno, rimuovere
                 ngIf per disabilitare-->
-    <form *ngIf="show === true" novalidate class="field-container form">
+    <form *ngIf="show" novalidate class="field-container form">
       <!-- Viene creata una label e un input per ogni field -->
       <div *ngFor="let field of section.fields" class="field">
         <!--
@@ -20,7 +20,8 @@
             field.fieldType != 'RADIO' &&
             field.fieldType != 'CHECKBOX' &&
             field.fieldType != 'TEXT_AREA' &&
-            field.fieldType != 'MULTI_SELECT'
+            field.fieldType != 'MULTI_SELECT' &&
+            this.getConditionResult(field?.depends?.fieldStatus?.conditionForVisibility)
           "
         >
           <label [for]="field.fieldName">{{ field.label["en" || "it"] }}</label>
