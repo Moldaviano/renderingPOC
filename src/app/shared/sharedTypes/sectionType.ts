@@ -114,7 +114,6 @@ type numericProp = {
 
 type stringProp = {
   /**
-   * //TODO: rivedere regex
    * Optional: determina se la stringa in questione è un nome (utilizzabile anche con cognomi)
    */
   isName?: boolean;
@@ -153,14 +152,97 @@ type dependent = {
    * Nome del campo dal quale dipende
    */
   dependsFrom?: string[];
+  qualcosa?: fieldStatus;
 };
 
+//TEST:
 type fieldStatus = {
-    visibile?: boolean;
-    enabled?: boolean;
-    valid?: boolean;
-}
+  /**
+   * determina quali sono le condizioni che si devono rispettare
+   * affinchè il campo sia visibile => se le condizioni non vengono
+   * rispettate il campo viene nascosto
+   */
+  conditionForVisibility?: condition;
 
-type conditions = {
+  /**
+   * determina quali sono le condizioni che si devono rispettare affinchè
+   * il campo sia abilitato alla modifica/compilazione => se le condizioni
+   * non vengono rispettate il campo viene bloccato/disabilitato
+   */
+  conditionForEnabling?: condition;
 
-}
+  /**
+   * determina quali sono le condizioni che si devono rispettare
+   * affinchè il campo sia valido => se le condizioni non vengono rispettate
+   * il campo viene reso invalid
+   */
+  conditionsForValidity?: condition;
+};
+
+export type condition = {
+  /**
+   * Optional: Prima condizione da controllare per verificare che il campo sia visibile, abilitato o valido
+   */
+  primaCondizione?: condition;
+  /**
+   * Optional: Seconda condizione da controllare per verificare che il campo sia visibile, abilitato o valido
+   */
+  secondaCondizione?: condition;
+  /**
+   * Optional: Operatore logico che determina se devono essere vere entrambe le condizioni o solo una affinchè
+   * il campo sia visibile, abilitato o valido
+   */
+  operatoreLogico?: logicOperator;
+
+  /**
+   * primo fattore della comparazione
+   */
+  firstComparedFactor: number | string;
+  /**
+   * operatore di comparazione
+   */
+  comparator: comparator;
+  /**
+   * secondo fattore di comparazione
+   */
+  secondComparedFactor: number | number[] | string | string[];
+};
+
+/**
+ * determina l'operatore logico da utilizzare nella condizione:
+ * 'isIncludedIn' = verifica che il valore del primo fattore sia incluso tra i valori del secondo, che deve quindi essere un array
+ */
+export type comparator =
+  | '=='
+  | '==='
+  | '!='
+  | '<'
+  | '>'
+  | '<='
+  | '>='
+  | 'isIncludedIn';
+
+type compared = {
+  /**
+   * determina il tipo dei fattori da comparare
+   */
+  compareType: 'string' | 'date' | 'number';
+  /**
+   * valore da comparare => può essere un numero, una stringa, una data, un valore
+   */
+  compareValue: string | number;
+};
+
+/**
+ * operatori logici:
+ *  '||' = OR,
+ *  '&&' = AND
+ */
+type logicOperator = '||' | '&&' | null;
+
+/**
+ * //TODO: implementare un sistema dati che permetta di verificare delle condizioni in arrivo in formato JSON e applicarle
+ * in modo che la visibilità/abilitazione/validazione di un campo dipenda da queste condizioni.
+ *
+ * Le condizioni sono riferite ai valori inseriti nei field dai quali dipende il campo
+ */
